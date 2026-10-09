@@ -1,0 +1,85 @@
+#include <Foundation/Foundation.h>
+#include <mach/mach.h>
+#include <mach-o/dyld.h>
+#include <mach/mach_traps.h>
+#include <mach/mach.h>
+#include <mach-o/dyld.h>
+#include <sys/mman.h>
+#include <CoreFoundation/CoreFoundation.h>
+#include <string>
+
+struct MemoryFileInfo {
+    uint32_t index;
+    const struct mach_header *header;
+    const char *name;
+    long long address;
+};
+
+MemoryFileInfo getBaseInfo() {
+    MemoryFileInfo _info;
+    std::string applicationsPath = "/private/var/containers/Bundle/Application";
+    for (uint32_t i = 0; i < _dyld_image_count(); i++)
+    {
+        const char *name = _dyld_get_image_name(i);
+        if (!name) continue;
+        std::string fullpath(name);
+        if (strncmp(fullpath.c_str(), applicationsPath.c_str(), applicationsPath.size()) == 0)
+        {
+            _info.index = i;
+            _info.header = _dyld_get_image_header(i);
+            _info.name = _dyld_get_image_name(i);
+            _info.address = _dyld_get_image_vmaddr_slide(i);
+            break;
+        }
+    }
+    return _info;
+}
+
+MemoryFileInfo getMemoryFileInfo(const std::string& fileName) {
+    MemoryFileInfo _info;
+    const uint32_t imageCount = _dyld_image_count();
+    for (uint32_t i = 0; i < imageCount; i++) {
+        const char *name = _dyld_get_image_name(i);
+        if (!name) continue;
+        std::string fullpath(name);
+        if (fullpath.length() < fileName.length() || fullpath.compare(fullpath.length() - fileName.length(), fileName.length(), fileName) != 0) continue;
+        _info.index = i;
+        _info.header = _dyld_get_image_header(i);
+        _info.name = _dyld_get_image_name(i);
+        _info.address = _dyld_get_image_vmaddr_slide(i);
+        break;
+    }
+    return _info;
+}
+
+uintptr_t getAbsoluteAddress(const char *fileName, uintptr_t address) {
+    MemoryFileInfo info;
+    if (fileName)
+        info = getMemoryFileInfo(fileName);
+    else
+        info = getBaseInfo();
+    if (info.address == 0)
+        return 0;
+    return info.address + address;
+}
+
+uint64_t GetRealOffset(uint64_t offset){
+    return getAbsoluteAddress("UnityFramework", offset);
+}
+
+static bool CosmkHook(void *virtualaddr, void *func, void** orig_func){
+    *(long long*)orig_func = *(long long*)(virtualaddr);
+    int pagesize = getpagesize();
+    int64_t page = (long long)virtualaddr - ((long long)virtualaddr % pagesize);
+    if(mprotect((void*)page, pagesize, PROT_READ | PROT_WRITE) != -1){
+        *(long long*)virtualaddr = (long long)func;
+        mprotect((void*)page, pagesize, PROT_READ);
+        return 1;
+    }
+    return 0;
+}
+
+static uint64_t mh_baseaddr;
+static bool isVaildPtr(long long ptr){
+    return ptr >= mh_baseaddr && ptr <= 0x500000000 ? YES : NO;
+}

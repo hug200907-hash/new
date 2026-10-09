@@ -1,0 +1,8 @@
+Package: com.subin
+Name: SUBIN 131
+Depends: mobilesubstrate
+Version: 2.0
+Architecture: iphoneos-arm
+Description: EGLE 131
+Maintainer: Little 34306
+Author: 34306

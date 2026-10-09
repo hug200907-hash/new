@@ -1,0 +1,37 @@
+#ifndef iconbotro_h
+#define iconbotro_h
+
+#import "Toc_Hanh.h"
+#import "Cap_Cuu.h"
+#import "Boc_Pha.h"
+#import "Trung_Tri.h"
+#import "Te_Tai.h"
+#import "Toc_Bien.h"
+#import "Gam_Thet.h"
+#import "Ngap_Ngu.h"
+#import "Thanh_Tay.h"
+#import "Suy_Nhuoc.h"
+#import "May_Bay.h"
+#import "Linh_Bao_Vang.h"
+#import "Linh_Bao_Giap.h"
+
+#import "Hoi_Mau.h"
+#import "Hoi_Mau_Sieu_Cap.h"
+#import "Hoi_Mau_Dolia.h"
+#import "Bang_Suong.h"
+#import "Xa_Nhat_Cung.h"
+#import "Cung_Ta_Ma.h"
+#import "Thuong_Khung_Kiem.h"
+#import "Nham_Thuan.h"
+#import "Dai_Dia_Than_Khien.h"
+#import "Dai_Dia_Ma_Nhan.h"
+#import "Dai_Dia_Than_Toc.h"
+#import "Dai_Dia_Mo_Troi.h"
+#import "Dai_Dia_Hoi_Huyet.h"
+#import "Liet_Hoa_Than_Khien.h"
+#import "Liet_Hoa_Ma_Nhan.h"
+#import "Liet_Hoa_Than_Toc.h"
+#import "Liet_Hoa_Mo_Troi.h"
+#import "Liet_Hoa_Hoi_huyet.h"
+
+#endif

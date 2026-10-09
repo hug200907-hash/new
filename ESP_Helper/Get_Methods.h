@@ -1,0 +1,56 @@
+struct EntityInfo {
+    Vector3 myPos;
+    Vector3 enemyPos;
+    Vector3 moveForward;
+    int currentSpeed;
+    float DoLech;
+    float Ranger;
+};
+EntityInfo EnemyTarget;
+
+struct HeroWrapSkillData {
+    int SkillId;
+    int skillSlotCDMax;
+    int skillLv;
+    const char *skillIconPath;
+    bool skillSlotUnlock;
+    bool skillSlotReady;
+    int Skill1SlotCD;
+};
+
+void* (*get_main)();
+void (*set_fieldOfView)(void*, float);
+Vector3 (*WorldToScreenPoint)(void*, Vector3);
+Vector3 (*WorldToScreens)(void*, Vector3, int);
+Vector3 (*ActorLinker_getPosition)(void *instance);
+bool (*LObjWrapper_get_IsDeadState)(void *instance);
+int (*ValuePropertyComponent_get_actorHp)(void *instance);
+int (*ValuePropertyComponent_get_actorHpTotal)(void *instance);
+int (*ActorLinker_ActorTypeDef)(void *instance);
+int (*ActorLinker_COM_PLAYERCAMP)(void *instance);
+bool (*ActorLinker_IsHostPlayer)(void *instance);
+int (*LActorRoot_COM_PLAYERCAMP)(void *instance);
+bool (*LActorRoot_IsEnemyCamp)(void *instance);
+int (*LActorRoot_get_ObjID)(void *instance);
+int (*ActorLinker_get_ObjID)(void *instance);
+void* (*LActorRoot_AsHero)(void *instance);
+int (*get_speed)(void *instance);
+void* (*LActorRoot_get_PlayerMovement)(void *instance);
+bool (*ActorLinker_get_bVisible)(void *instance);
+Vector2 (*GetMMFianlScreenPos)(void *instance);
+Vector2 (*GetBMFianlScreenPos)(void *instance);
+Vector2 (*get_mmFinalScreenSize)(void *instance);
+Vector2 (*get_bmFinalScreenSize)(void *instance);
+bool (*Is3V3Minimap)(void *instance);
+int (*get_CurMapType)(void *instance);
+bool (*IsNormal5v5mode)(void *instance);
+HeroWrapSkillData (*LHeroWrapper_GetHeroWrapSkillData)(void *instance, int slot);
+int (*GetCurSkillSlotType)(void *instance);
+bool (*Reqskill)(void *ins);
+bool (*Reqskill2)(void *ins, bool bForce);
+monoString* (*String_CreateString)(void *instance, const char *value, int startIndex, int length);
+void* (*SetPlayerName)(void* instance, monoString* playerName, monoString* prefixName, bool isGuideLevel, monoString* customName);
+void* (*ActorLinker_AsHero)(void* instance);
+int (*ValueLinkerComponent_get_actorHp)(void *instance);
+int (*ValueLinkerComponent_get_actorHpTotal)(void *instance);
+int (*ValueLinkerComponent_get_actorSoulLevel)(void *instance);
